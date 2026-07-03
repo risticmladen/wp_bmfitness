@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/*
+ * Scan all PHP files in the theme for Tailwind classes.
+ * Tailwind v4 auto-detects sources, but we add explicit paths for clarity.
+ */
+@source "../../**/*.php";
+
+/*
+ * Custom theme tokens — override these to match the BM Fitness brand.
+ */
+@theme {
+	--color-brand-600: #AACF38;
+	--color-brand-700: #678117;
+	--color-gray-800: #222528;
+}
