@@ -2,75 +2,134 @@
 /**
  * Front page template.
  *
+ * Structure:
+ *  1. Fitness Hero  →  Fitness Pricing  →  Fitness Gallery
+ *  2. Wellness Hero →  Wellness Pricing →  Wellness Gallery
+ *  3. Google Reviews
+ *  4. CTA
+ *
  * @package BMFitness
  */
 
 get_header();
+
+/* ═══════════════════════════════════════════════════════════════ FITNESS */
 ?>
 
-<!-- Hero -->
-<section class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 text-white">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-		<div class="max-w-2xl">
-			<h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-				<?php esc_html_e( 'Your Fitness Journey Starts Here', 'bmfitness' ); ?>
-			</h1>
-			<p class="text-lg text-gray-300 mb-8 leading-relaxed">
-				<?php esc_html_e( 'Professional training, personalized programs, and a community that supports your goals.', 'bmfitness' ); ?>
-			</p>
-			<div class="flex flex-wrap gap-4">
-				<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'contact' ) ) ); ?>"
-				   class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">
-					<?php esc_html_e( 'Get Started', 'bmfitness' ); ?>
-				</a>
-				<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'pricelist' ) ) ); ?>"
-				   class="inline-flex items-center px-6 py-3 border border-white/30 hover:bg-white/10 text-white font-semibold rounded-lg transition">
-					<?php esc_html_e( 'View Pricing', 'bmfitness' ); ?>
-				</a>
+<!-- Fitness Hero -->
+<?php bmfitness_render_hero( 'fitness' ); ?>
+
+<!-- Fitness Pricing -->
+<?php
+$fit_pricing_title = get_theme_mod( 'pricing_fitness_title', '' );
+$fit_pricing_text  = get_theme_mod( 'pricing_fitness_text', '' );
+?>
+<section class="pb-20 -mt-20 relative z-10">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<?php bmfitness_render_pricing_grid( 'fitness' ); ?>
+		<div class="flex justify-center py-4">
+			<p class="text-gray-600 max-w-2xl mx-auto text-center"><?php esc_html_e( 'Sve članarine uključuju neograničen broj dolazaka u fitness centar, uz radno vrijeme 0-24 h.', 'bmfitness' ); ?></p>
+		</div>
+		<?php if ( $fit_pricing_title || $fit_pricing_text ) : ?>
+			<div class="text-center mt-10">
+				<?php if ( $fit_pricing_title ) : ?>
+					<h2 class="text-2xl font-bold text-gray-900 mb-3"><?php echo esc_html( $fit_pricing_title ); ?></h2>
+				<?php endif; ?>
+				<?php if ( $fit_pricing_text ) : ?>
+					<p class="text-gray-600 max-w-2xl mx-auto"><?php echo nl2br( esc_html( $fit_pricing_text ) ); ?></p>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+	</div>
+</section>
+
+<!-- Fitness Gallery -->
+<?php
+$fit_gal_title     = get_theme_mod( 'gallery_fitness_title', '' );
+$fit_gal_text      = get_theme_mod( 'gallery_fitness_text', '' );
+$fit_gal_btn_label = get_theme_mod( 'gallery_fitness_btn_label', '' );
+$fit_gal_btn_url   = get_theme_mod( 'gallery_fitness_btn_url', '' );
+?>
+<section class="py-10 md:py-20 bg-gray-100">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="grid gap-8 md:grid-cols-3 items-start">
+			<div class="md:col-span-2">
+				<?php bmfitness_render_gallery_slider( 'fitness' ); ?>
+			</div>
+			<div class="md:col-span-1 flex flex-col justify-center">
+				<?php if ( $fit_gal_title ) : ?>
+					<h3 class="text-2xl font-bold text-gray-900 mb-4"><?php echo esc_html( $fit_gal_title ); ?></h3>
+				<?php endif; ?>
+				<?php if ( $fit_gal_text ) : ?>
+					<p class="text-gray-600 leading-relaxed mb-6"><?php echo nl2br( esc_html( $fit_gal_text ) ); ?></p>
+				<?php endif; ?>
+				<?php if ( $fit_gal_btn_label && $fit_gal_btn_url ) : ?>
+					<a href="<?php echo esc_url( $fit_gal_btn_url ); ?>"
+					   class="inline-flex items-center px-6 py-3 bg-brand-600 text-white font-semibold rounded-lg hover:bg-brand-700 transition-colors max-w-fit uppercase">
+						<?php echo esc_html( $fit_gal_btn_label ); ?>
+					</a>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
 </section>
 
-<!-- Services overview -->
-<section class="py-20 bg-gray-50">
+<?php /* ══════════════════════════════════════════════════════════════ WELLNESS */ ?>
+
+<!-- Wellness Hero -->
+<?php bmfitness_render_hero( 'wellness' ); ?>
+
+<!-- Wellness Pricing -->
+<?php
+$well_pricing_title = get_theme_mod( 'pricing_wellness_title', '' );
+$well_pricing_text  = get_theme_mod( 'pricing_wellness_text', '' );
+?>
+<section class="pb-20 -mt-20 relative z-10">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="text-center mb-12">
-			<h2 class="text-3xl font-bold text-gray-900 mb-4"><?php esc_html_e( 'Our Services', 'bmfitness' ); ?></h2>
-			<p class="text-gray-600 max-w-2xl mx-auto"><?php esc_html_e( 'Everything you need to reach your fitness goals under one roof.', 'bmfitness' ); ?></p>
+		<?php bmfitness_render_pricing_grid( 'wellness' ); ?>
+		<div class="flex justify-center py-4">
+			<p class="text-gray-600 max-w-2xl mx-auto text-center"><?php esc_html_e( 'Wellness usluge dostupne uz rezervacije.', 'bmfitness' ); ?></p>
 		</div>
-		<div class="grid gap-8 md:grid-cols-3">
-			<?php
-			$services = array(
-				array(
-					'icon'  => '💪',
-					'title' => __( 'Personal Training', 'bmfitness' ),
-					'desc'  => __( 'One-on-one sessions tailored to your goals and fitness level.', 'bmfitness' ),
-				),
-				array(
-					'icon'  => '🏋️',
-					'title' => __( 'Group Classes', 'bmfitness' ),
-					'desc'  => __( 'High-energy group workouts that keep you motivated.', 'bmfitness' ),
-				),
-				array(
-					'icon'  => '🥗',
-					'title' => __( 'Nutrition Plans', 'bmfitness' ),
-					'desc'  => __( 'Customized meal plans to fuel your training and recovery.', 'bmfitness' ),
-				),
-			);
-			foreach ( $services as $service ) : ?>
-				<div class="bg-white rounded-xl p-8 shadow-sm border border-gray-100 text-center hover:shadow-md transition">
-					<div class="text-4xl mb-4"><?php echo $service['icon']; ?></div>
-					<h3 class="text-xl font-semibold text-gray-900 mb-3"><?php echo esc_html( $service['title'] ); ?></h3>
-					<p class="text-gray-600"><?php echo esc_html( $service['desc'] ); ?></p>
-				</div>
-			<?php endforeach; ?>
-		</div>
-		<div class="text-center mt-10">
-			<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'services' ) ) ); ?>"
-			   class="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
-				<?php esc_html_e( 'See all services →', 'bmfitness' ); ?>
-			</a>
+		<?php if ( $well_pricing_title || $well_pricing_text ) : ?>
+			<div class="text-center mt-10">
+				<?php if ( $well_pricing_title ) : ?>
+					<h2 class="text-2xl font-bold text-gray-900 mb-3"><?php echo esc_html( $well_pricing_title ); ?></h2>
+				<?php endif; ?>
+				<?php if ( $well_pricing_text ) : ?>
+					<p class="text-gray-600 max-w-2xl mx-auto"><?php echo nl2br( esc_html( $well_pricing_text ) ); ?></p>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+	</div>
+</section>
+
+<!-- Wellness Gallery -->
+<?php
+$well_gal_title     = get_theme_mod( 'gallery_wellness_title', '' );
+$well_gal_text      = get_theme_mod( 'gallery_wellness_text', '' );
+$well_gal_btn_label = get_theme_mod( 'gallery_wellness_btn_label', '' );
+$well_gal_btn_url   = get_theme_mod( 'gallery_wellness_btn_url', '' );
+?>
+<section class="py-20 bg-white">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="grid gap-8 md:grid-cols-3 items-start">
+            <div class="md:col-span-2">
+                <?php bmfitness_render_gallery_slider( 'wellness' ); ?>
+            </div>
+			<div class="md:col-span-1 flex flex-col justify-center">
+				<?php if ( $well_gal_title ) : ?>
+					<h3 class="text-2xl font-bold text-gray-900 mb-4"><?php echo esc_html( $well_gal_title ); ?></h3>
+				<?php endif; ?>
+				<?php if ( $well_gal_text ) : ?>
+					<p class="text-gray-600 leading-relaxed mb-6"><?php echo nl2br( esc_html( $well_gal_text ) ); ?></p>
+				<?php endif; ?>
+				<?php if ( $well_gal_btn_label && $well_gal_btn_url ) : ?>
+					<a href="<?php echo esc_url( $well_gal_btn_url ); ?>"
+					   class="inline-flex items-center px-6 py-3 bg-brand-600 text-white font-semibold rounded-lg hover:bg-brand-700 transition-colors max-w-fit uppercase">
+						<?php echo esc_html( $well_gal_btn_label ); ?>
+					</a>
+				<?php endif; ?>
+			</div>
 		</div>
 	</div>
 </section>
@@ -79,12 +138,12 @@ get_header();
 <?php get_template_part( 'template-parts/google-reviews' ); ?>
 
 <!-- CTA -->
-<section class="py-20 bg-blue-600 text-white">
+<section class="py-20 bg-brand-600 text-white">
 	<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-		<h2 class="text-3xl font-bold mb-4"><?php esc_html_e( 'Ready to Transform Your Life?', 'bmfitness' ); ?></h2>
-		<p class="text-blue-100 text-lg mb-8"><?php esc_html_e( 'Join BM Fitness today and start your journey to a healthier you.', 'bmfitness' ); ?></p>
+		<h2 class="text-3xl font-bold mb-4"><?php esc_html_e( 'Ostvarite vaše ciljeve', 'bmfitness' ); ?></h2>
+		<p class="text-lg mb-8"><?php esc_html_e( 'Pridružite se BM Fitness i počnite živjeti zdravije!', 'bmfitness' ); ?></p>
 		<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'contact' ) ) ); ?>"
-		   class="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition">
+		   class="inline-flex items-center px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition">
 			<?php esc_html_e( 'Contact Us', 'bmfitness' ); ?>
 		</a>
 	</div>

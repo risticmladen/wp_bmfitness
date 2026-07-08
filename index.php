@@ -20,13 +20,13 @@ get_header();
 					<?php endif; ?>
 					<div class="p-6">
 						<h2 class="text-xl font-semibold mb-2">
-							<a href="<?php the_permalink(); ?>" class="text-gray-900 hover:text-blue-600 transition-colors">
+							<a href="<?php the_permalink(); ?>" class="text-gray-900 hover:text-brand-600 transition-colors">
 								<?php the_title(); ?>
 							</a>
 						</h2>
 						<p class="text-gray-600 text-sm mb-4"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 20 ) ); ?></p>
-						<a href="<?php the_permalink(); ?>" class="text-blue-600 text-sm font-medium hover:text-blue-700">
-							<?php esc_html_e( 'Read more →', 'bmfitness' ); ?>
+						<a href="<?php the_permalink(); ?>" class="text-brand-600 text-sm font-medium hover:text-brand-700">
+							<?php esc_html_e( 'Pročitaj →', 'bmfitness' ); ?>
 						</a>
 					</div>
 				</article>
@@ -36,12 +36,12 @@ get_header();
 		<div class="mt-12">
 			<?php the_posts_pagination( array(
 				'mid_size'  => 2,
-				'prev_text' => '← ' . __( 'Previous', 'bmfitness' ),
-				'next_text' => __( 'Next', 'bmfitness' ) . ' →',
+				'prev_text' => '← ' . __( 'Prethodna stranica', 'bmfitness' ),
+				'next_text' => __( 'Iduća stranica', 'bmfitness' ) . ' →',
 			) ); ?>
 		</div>
 	<?php else : ?>
-		<p class="text-gray-500 text-center"><?php esc_html_e( 'No posts found.', 'bmfitness' ); ?></p>
+		<p class="text-gray-500 text-center"><?php esc_html_e( 'Trenutno vam nemamo što pokazati.', 'bmfitness' ); ?></p>
 	<?php endif; ?>
 </div>
 

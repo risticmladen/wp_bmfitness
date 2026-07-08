@@ -14,22 +14,23 @@ $google_reviews_url = 'https://share.google/qwBx3zC14JDmRd46g';
 // Add your actual Google reviews here.
 $reviews = array(
 	array(
-		'author' => 'Marko P.',
+		'author' => 'Erik M.',
 		'rating' => 5,
-		'text'   => 'Best gym in town! The trainers really know what they\'re doing and the atmosphere is great.',
-		'date'   => '2 weeks ago',
+		'text'   => 'Izrazito moderna i suvremena teretana opremljena mnoštvom kvalitetnih sprava i pomagala za razne tipove vježbanja. Prostor je izrazito uredan i čist te klimatiziran, a atmosfera je ugodna i motivirajuća. Osoblje vrlo uljudno, ažurno i prijateljski nastrojeno. Sve preporuke!',
+		'date'   => 'Prije 4 mjesca',
 	),
 	array(
-		'author' => 'Ana K.',
+		'author' => 'Tea B. S.',
 		'rating' => 5,
-		'text'   => 'I\'ve been training here for 6 months and the results are amazing. Highly recommend!',
-		'date'   => '1 month ago',
+		'text'   => 'BM Fitness prostor je moderan, čist i opremljen vrhunskim spravama za svaki tip vježbanja. Osoblje je uvijek ljubazno, stručni treneri su tu za pomoć i motivaciju, a atmosfera je toliko pozitivna da je svaki dolazak ugodan i motivirajuć. Muške i ženske svlačionice imaju svaka svoj wc i tuš. Uvijek čisto i mirisno.
+                     Preporučam svima koji traže kvalitetan fitness centar sa mnoštvom opreme, sprava, savjeta i pomoći u Baranji :)',
+		'date'   => 'Prije godinu dana',
 	),
 	array(
-		'author' => 'Ivan S.',
+		'author' => 'Sara D.',
 		'rating' => 5,
-		'text'   => 'Professional approach, clean facilities, and very friendly staff. Couldn\'t ask for more.',
-		'date'   => '1 month ago',
+		'text'   => 'Odličan gym koji radi 0–24, što je ogroman plus jer mogu trenirati kad god mi odgovara. Oprema je super i sve je uredno. Djelatnici su stvarno super uvijek ljubazni, pristupačni i spremni pomoći oko bilo čega. Preporučujem svima koji traže kvalitetno mjesto za trening bez stresa',
+		'date'   => 'Prije 4 mjesca',
 	),
 );
 
@@ -54,14 +55,14 @@ if ( empty( $reviews ) ) {
 			<div class="flex items-center justify-center gap-1 text-yellow-400 text-2xl mb-2">
 				★★★★★
 			</div>
-			<p class="text-gray-500 text-sm"><?php esc_html_e( 'See what our members say about us', 'bmfitness' ); ?></p>
+			<p class="text-gray-500 text-sm"><?php esc_html_e( 'Pogledajte što su rekli neki naši posjetitelji', 'bmfitness' ); ?></p>
 		</div>
 
 		<div class="grid gap-6 md:grid-cols-3" id="google-reviews">
 			<?php foreach ( $reviews as $review ) : ?>
 				<div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
 					<div class="flex items-center gap-3 mb-4">
-						<div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
+						<div class="w-10 h-10 bg-brand-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
 							<?php echo esc_html( mb_substr( $review['author'], 0, 1 ) ); ?>
 						</div>
 						<div>
@@ -82,8 +83,8 @@ if ( empty( $reviews ) ) {
 			<a href="<?php echo esc_url( $google_reviews_url ); ?>"
 			   target="_blank"
 			   rel="noopener noreferrer"
-			   class="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
-				<?php esc_html_e( 'See all reviews on Google →', 'bmfitness' ); ?>
+			   class="inline-flex items-center gap-2 text-brand-600 font-semibold hover:text-brand-700 transition-colors">
+				<?php esc_html_e( 'Pogledajte ostale recenzije →', 'bmfitness' ); ?>
 			</a>
 		</div>
 	</div>

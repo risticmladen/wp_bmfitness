@@ -10,7 +10,39 @@
  * Custom theme tokens — override these to match the BM Fitness brand.
  */
 @theme {
+	/* Brand colours */
 	--color-brand-600: #AACF38;
 	--color-brand-700: #678117;
 	--color-gray-800: #222528;
+
+	/* Container sizes */
+	--container-8xl: 100rem; /* 1600px — use as max-w-8xl */
 }
+
+/* --- WordPress block content --- */
+
+.prose :where(figure) { @apply my-4 md:my-8 lg:my-10; }
+
+/* Tables */
+.prose .wp-block-table { @apply overflow-x-auto mt-2 shadow; }
+.prose .wp-block-table table { @apply w-full text-left border-collapse; }
+
+.prose .wp-block-table th,
+.prose .wp-block-table td { @apply border-b border-x-0 border-gray-200 px-4 py-3; }
+/* Gutenberg makes the header row <td>s, not <th> */
+.prose .wp-block-table tr:first-child { @apply bg-gray-800 text-white font-semibold uppercase; }
+
+/* Columns: WP already flexes them — add gap and stack on mobile */
+.prose .wp-block-columns { @apply flex flex-col md:flex-row gap-4 md:gap-8 my-4 md:my-8 lg:my-10; }
+.prose .wp-block-column  { @apply flex-1 min-w-0; }
+
+/* Images */
+.prose .wp-block-image { @apply my-0; }
+.prose .wp-block-image img { @apply rounded-xl w-full h-auto; }
+
+.prose .has-fixed-layout td { @apply break-keep; }
+
+.prose .wp-block-table td,
+.prose .wp-block-table th { @apply p-1 md:p-4 text-xs md:text-base; }
+
+main { @apply text-sm md:text-base; }

@@ -23,12 +23,12 @@ get_header();
 					<div class="p-6">
 						<div class="text-xs text-gray-400 mb-2"><?php echo get_the_date(); ?></div>
 						<h2 class="text-xl font-semibold mb-2">
-							<a href="<?php the_permalink(); ?>" class="text-gray-900 hover:text-blue-600 transition-colors">
+							<a href="<?php the_permalink(); ?>" class="text-gray-900 hover:text-brand-600 transition-colors">
 								<?php the_title(); ?>
 							</a>
 						</h2>
 						<p class="text-gray-600 text-sm mb-4"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 20 ) ); ?></p>
-						<a href="<?php the_permalink(); ?>" class="text-blue-600 text-sm font-medium hover:text-blue-700">
+						<a href="<?php the_permalink(); ?>" class="text-brand-600 text-sm font-medium hover:text-brand-700">
 							<?php esc_html_e( 'Read more →', 'bmfitness' ); ?>
 						</a>
 					</div>
