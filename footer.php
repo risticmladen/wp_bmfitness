@@ -87,7 +87,7 @@
 		</div>
 
 		<div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
-			<p>&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'All rights reserved.', 'bmfitness' ); ?></p>
+			<p>&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'Sva prava pridržana.', 'bmfitness' ); ?></p>
 		</div>
 	</div>
 </footer>
