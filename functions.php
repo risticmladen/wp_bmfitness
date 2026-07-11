@@ -28,6 +28,8 @@ function bmfitness_setup() {
 		'style',
 		'script',
 	) );
+	add_image_size( 'pricing-plan', 800, 500, true ); // Hard-cropped for plan cards.
+
 	add_theme_support( 'custom-logo', array(
 		'height'      => 80,
 		'width'       => 250,
@@ -66,6 +68,21 @@ function bmfitness_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'bmfitness_enqueue_assets' );
 
 /**
+ * Add the page slug as a body class (e.g. "page-wellness", "page-fitness")
+ * so templates and CSS can target individual pages.
+ */
+function bmfitness_body_class_slug( $classes ) {
+	if ( is_page() ) {
+		$queried = get_queried_object();
+		if ( $queried instanceof WP_Post && $queried->post_name ) {
+			$classes[] = 'page-' . sanitize_html_class( $queried->post_name );
+		}
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'bmfitness_body_class_slug' );
+
+/**
  * Custom nav walker for Tailwind-friendly markup.
  *
  * Supports two contexts via the `walker_context` arg passed to wp_nav_menu():
@@ -98,7 +115,7 @@ class BMFitness_Nav_Walker extends Walker_Nav_Menu {
 				$li_class = 'list-none' . ( $has_children ? ' relative nav-dropdown-parent' : '' );
 				$output  .= '<li class="' . esc_attr( $li_class ) . '">';
 
-				$link_class = 'text-white hover:text-brand-600 transition-colors font-medium flex items-center gap-1';
+				$link_class = 'text-white hover:text-brand-600 transition-colors font-medium flex items-center gap-1 uppercase text-sm font-semibold tracking-wider';
 				if ( $is_current ) {
 					$link_class .= ' text-brand-600';
 				}
@@ -351,10 +368,12 @@ function bmfitness_register_pricing_cpt() {
 		'public'        => false,
 		'show_ui'       => true,
 		'show_in_menu'  => true,
+		'show_in_rest'  => true, // Required for the block editor to fetch plans.
 		'menu_icon'     => 'dashicons-money-alt',
 		'menu_position' => 21,
 		// page-attributes adds the Order field so the client can reorder plans.
-		'supports'      => array( 'title', 'page-attributes' ),
+		// thumbnail enables the Featured Image meta box so a plan image can be set.
+		'supports'      => array( 'title', 'thumbnail', 'page-attributes' ),
 	) );
 }
 add_action( 'init', 'bmfitness_register_pricing_cpt' );
@@ -394,7 +413,7 @@ add_action( 'init', 'bmfitness_register_pricing_taxonomy' );
 function bmfitness_add_pricing_meta_box() {
 	add_meta_box(
 		'bmfitness_plan_prices',
-		__( 'Prices', 'bmfitness' ),
+		__( 'Plan details', 'bmfitness' ),
 		'bmfitness_pricing_meta_box_html',
 		'pricing_plan',
 		'normal',
@@ -405,10 +424,28 @@ add_action( 'add_meta_boxes', 'bmfitness_add_pricing_meta_box' );
 
 function bmfitness_pricing_meta_box_html( $post ) {
 	wp_nonce_field( 'bmfitness_save_plan_prices', 'bmfitness_plan_nonce' );
-	$old = get_post_meta( $post->ID, '_old_price', true );
-	$new = get_post_meta( $post->ID, '_new_price', true );
+	$description = get_post_meta( $post->ID, '_plan_description', true );
+	$breakdown   = get_post_meta( $post->ID, '_plan_price_breakdown', true );
+	$url         = get_post_meta( $post->ID, '_plan_url', true );
+	$old         = get_post_meta( $post->ID, '_old_price', true );
+	$new         = get_post_meta( $post->ID, '_new_price', true );
 	?>
 	<table class="form-table" style="margin:0;">
+		<tr>
+			<th style="width:44%;padding:8px 0;"><label for="bm_plan_description"><?php esc_html_e( 'Description (shown under the title)', 'bmfitness' ); ?></label></th>
+			<td style="padding:8px 0;"><textarea id="bm_plan_description" name="bm_plan_description" rows="3" class="large-text" placeholder="<?php esc_attr_e( 'Short description of the plan', 'bmfitness' ); ?>"><?php echo esc_textarea( $description ); ?></textarea></td>
+		</tr>
+		<tr>
+			<th style="width:44%;padding:8px 0;"><label for="bm_plan_price_breakdown"><?php esc_html_e( 'Price breakdown', 'bmfitness' ); ?></label></th>
+			<td style="padding:8px 0;"><input type="text" id="bm_plan_price_breakdown" name="bm_plan_price_breakdown" value="<?php echo esc_attr( $breakdown ); ?>" class="regular-text" placeholder="<?php esc_attr_e( 'e.g. 3 x 30€ / month', 'bmfitness' ); ?>"></td>
+		</tr>
+		<tr>
+			<th style="padding:8px 0;"><label for="bm_plan_url"><?php esc_html_e( 'Link URL (wraps the card)', 'bmfitness' ); ?></label></th>
+			<td style="padding:8px 0;">
+				<span style="color:#646970;"><?php echo esc_html( trailingslashit( home_url() ) ); ?></span><input type="text" id="bm_plan_url" name="bm_plan_url" value="<?php echo esc_attr( $url ); ?>" class="regular-text" style="width:auto;" placeholder="<?php esc_attr_e( 'membership', 'bmfitness' ); ?>">
+				<p class="description"><?php esc_html_e( 'Enter a path on this site (e.g. “membership” or “wellness/spa”). For an external link, paste the full https:// URL.', 'bmfitness' ); ?></p>
+			</td>
+		</tr>
 		<tr>
 			<th style="width:44%;padding:8px 0;"><label for="bm_old_price"><?php esc_html_e( 'Original price (shown crossed out)', 'bmfitness' ); ?></label></th>
 			<td style="padding:8px 0;"><input type="text" id="bm_old_price" name="bm_old_price" value="<?php echo esc_attr( $old ); ?>" class="regular-text" placeholder="e.g. 105"></td>
@@ -427,6 +464,23 @@ function bmfitness_save_plan_prices( $post_id ) {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	if ( ! current_user_can( 'edit_post', $post_id ) ) return;
 
+	if ( isset( $_POST['bm_plan_description'] ) ) {
+		update_post_meta( $post_id, '_plan_description', sanitize_textarea_field( wp_unslash( $_POST['bm_plan_description'] ) ) );
+	}
+	if ( isset( $_POST['bm_plan_price_breakdown'] ) ) {
+		update_post_meta( $post_id, '_plan_price_breakdown', sanitize_text_field( wp_unslash( $_POST['bm_plan_price_breakdown'] ) ) );
+	}
+	if ( isset( $_POST['bm_plan_url'] ) ) {
+		$raw = trim( wp_unslash( $_POST['bm_plan_url'] ) );
+		if ( '' === $raw ) {
+			$plan_url = '';
+		} elseif ( preg_match( '#^(https?:)?//#i', $raw ) ) {
+			$plan_url = esc_url_raw( $raw ); // Full/external URL.
+		} else {
+			$plan_url = ltrim( sanitize_text_field( $raw ), '/' ); // Relative path on this site.
+		}
+		update_post_meta( $post_id, '_plan_url', $plan_url );
+	}
 	if ( isset( $_POST['bm_old_price'] ) ) {
 		update_post_meta( $post_id, '_old_price', sanitize_text_field( wp_unslash( $_POST['bm_old_price'] ) ) );
 	}
@@ -437,25 +491,56 @@ function bmfitness_save_plan_prices( $post_id ) {
 add_action( 'save_post_pricing_plan', 'bmfitness_save_plan_prices' );
 
 /**
+ * Resolve a stored plan URL to a full URL.
+ *
+ * A relative path (e.g. "membership") is treated as a path on this site and
+ * expanded to home_url('/membership'). Absolute or protocol-relative URLs are
+ * returned unchanged so external links keep working.
+ *
+ * @param string $value Stored _plan_url meta value.
+ * @return string Full URL, or '' when empty.
+ */
+function bmfitness_resolve_plan_url( $value ) {
+	$value = trim( (string) $value );
+	if ( '' === $value ) {
+		return '';
+	}
+	if ( preg_match( '#^(https?:)?//#i', $value ) ) {
+		return $value;
+	}
+	return home_url( '/' . ltrim( $value, '/' ) );
+}
+
+/**
  * Render a 3-column pricing grid filtered by pricing_section taxonomy slug.
  *
  * @param string $section_slug 'fitness' or 'wellness'.
  */
-function bmfitness_render_pricing_grid( $section_slug ) {
-	$query = new WP_Query( array(
+function bmfitness_render_pricing_grid( $section_slug, $plan_ids = array() ) {
+	$query_args = array(
 		'post_type'      => 'pricing_plan',
 		'posts_per_page' => -1,
 		'post_status'    => 'publish',
 		'orderby'        => 'menu_order date',
 		'order'          => 'ASC',
-		'tax_query'      => array(
+	);
+
+	if ( ! empty( $plan_ids ) ) {
+		// Show only the hand-picked plans, preserving selection order.
+		$query_args['post__in'] = array_map( 'absint', $plan_ids );
+		$query_args['orderby']  = 'post__in';
+	} else {
+		// Default: show all plans for the given section.
+		$query_args['tax_query'] = array(
 			array(
 				'taxonomy' => 'pricing_section',
 				'field'    => 'slug',
 				'terms'    => sanitize_key( $section_slug ),
 			),
-		),
-	) );
+		);
+	}
+
+	$query = new WP_Query( $query_args );
 
 	$plan_count = $query->found_posts;
 
@@ -482,17 +567,41 @@ function bmfitness_render_pricing_grid( $section_slug ) {
 	?>
 	<div class="grid gap-5 md:gap-24 <?php echo esc_attr( $cols_class ); ?>">
 		<?php while ( $query->have_posts() ) : $query->the_post();
-			$old_price = get_post_meta( get_the_ID(), '_old_price', true );
-			$new_price = get_post_meta( get_the_ID(), '_new_price', true );
+			$description = get_post_meta( get_the_ID(), '_plan_description', true );
+			$breakdown   = get_post_meta( get_the_ID(), '_plan_price_breakdown', true );
+			$plan_url    = bmfitness_resolve_plan_url( get_post_meta( get_the_ID(), '_plan_url', true ) );
+			$old_price   = get_post_meta( get_the_ID(), '_old_price', true );
+			$new_price   = get_post_meta( get_the_ID(), '_new_price', true );
 		?>
-			<div class="bg-white rounded-xl p-5 md:px-8 md:py-12 shadow-sm border border-gray-100 text-center hover:shadow-md transition">
-				<h3 class="text-xl font-semibold text-gray-900 mb-1 w-[50%] mx-auto"><?php the_title(); ?></h3>
-				<?php if ( $old_price ) : ?>
-					<p class="text-gray-400 line-through"><?php echo esc_html( $old_price ); ?>&euro;</p>
+		<div class="relative bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 text-center hover:shadow-md transition">
+				<?php if ( $plan_url ) : ?>
+					<a href="<?php echo esc_url( $plan_url ); ?>" class="absolute inset-0 z-10 w-full h-full">
+						<span class="sr-only"><?php the_title(); ?></span>
+					</a>
 				<?php endif; ?>
-				<?php if ( $new_price ) : ?>
-					<p class="text-gray-600 text-5xl font-semibold mt-2"><?php echo esc_html( $new_price ); ?>&euro;</p>
+				<?php if ( has_post_thumbnail() ) : ?>
+					<div class="w-full overflow-hidden flex items-center justify-center mx-auto max-w-1/2 md:max-w-none">
+					<?php the_post_thumbnail( 'pricing-plan', array(
+						'class' => 'w-auto h-full object-cover',
+						'alt'   => esc_attr( get_the_title() ),
+					) ); ?>
+					</div>
 				<?php endif; ?>
+				<div class="p-5 md:px-8 md:py-8">
+					<h3 class="text-xl font-semibold text-gray-900 mb-1 mx-auto"><?php the_title(); ?></h3>
+					<?php if ( $description ) : ?>
+						<p class="text-gray-500 mt-1"><?php echo esc_html( $description ); ?></p>
+					<?php endif; ?>
+					<?php if ( $breakdown ) : ?>
+						<p class="text-gray-500 text-xl mt-2 mb-2"><?php echo esc_html( $breakdown ); ?></p>
+					<?php endif; ?>
+					<?php if ( $old_price ) : ?>
+						<p class="text-gray-400 line-through mb-2"><?php echo esc_html( $old_price ); ?>&euro;</p>
+					<?php endif; ?>
+					<?php if ( $new_price ) : ?>
+						<p class="text-gray-600 text-5xl font-semibold"><?php echo esc_html( $new_price ); ?>&euro;</p>
+					<?php endif; ?>
+				</div>
 			</div>
 		<?php endwhile; wp_reset_postdata(); ?>
 	</div>
@@ -536,19 +645,19 @@ function bmfitness_render_gallery_slider( $section_slug ) {
 			</div>
 			<?php if ( $slide_count > 1 ) : ?>
 				<button class="gallery-prev"
-					style="position:absolute;left:12px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);color:#fff;border:none;border-radius:9999px;padding:10px;cursor:pointer;display:flex;align-items:center;"
+					style="position:absolute;left:0;height:100%;top:0;background:rgba(0,0,0,0.15);color:#fff;border:none;border-radius:12px;padding:10px;cursor:pointer;display:flex;align-items:center;"
 					aria-label="<?php esc_attr_e( 'Previous slide', 'bmfitness' ); ?>">
 					<svg style="width:20px;height:20px;" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
 				</button>
 				<button class="gallery-next"
-					style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);color:#fff;border:none;border-radius:9999px;padding:10px;cursor:pointer;display:flex;align-items:center;"
+					style="position:absolute;right:0;height:100%;top:0;background:rgba(0,0,0,0.15);color:#fff;border:none;border-radius:12px;padding:10px;cursor:pointer;display:flex;align-items:center;"
 					aria-label="<?php esc_attr_e( 'Next slide', 'bmfitness' ); ?>">
 					<svg style="width:20px;height:20px;" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
 				</button>
 				<div class="gallery-dots" style="position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:8px;">
 					<?php for ( $i = 0; $i < $slide_count; $i++ ) : ?>
 						<button class="gallery-dot"
-							style="width:10px;height:10px;border-radius:9999px;background:#fff;opacity:<?php echo 0 === $i ? '1' : '0.4'; ?>;border:none;padding:0;cursor:pointer;"
+							style="width:10px;height:10px;border-radius:9999px;background:#fff;opacity:<?php echo 0 === $i ? '1' : '0.2'; ?>;border:none;padding:0;cursor:pointer;"
 							data-index="<?php echo esc_attr( $i ); ?>"
 							aria-label="<?php echo esc_attr( sprintf( __( 'Go to slide %d', 'bmfitness' ), $i + 1 ) ); ?>">
 						</button>
@@ -587,6 +696,68 @@ function bmfitness_icon( $name, $classes = 'w-6 h-6' ) {
 	$svg = preg_replace( '/<svg\b/', '<svg class="' . esc_attr( $classes ) . '"', $svg, 1 );
 
 	echo $svg; // Trusted local theme asset.
+}
+
+/**
+ * Register the "Pricing Plans" Gutenberg block.
+ *
+ * This is a dynamic (server-side rendered) block. The editor shows a live
+ * preview via ServerSideRender; the frontend output is identical to
+ * bmfitness_render_pricing_grid().
+ *
+ * Usage: in the block editor, open the Block Inserter → Theme → Pricing Plans.
+ * Pick the section (Fitness or Wellness) in the sidebar panel.
+ */
+function bmfitness_register_pricing_block() {
+	wp_register_script(
+		'bmfitness-pricing-block',
+		BMFITNESS_URI . '/assets/js/block-pricing-plans.js',
+		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-server-side-render', 'wp-data' ),
+		BMFITNESS_VERSION,
+		true
+	);
+
+	register_block_type( 'bmfitness/pricing-plans', array(
+		'editor_script'   => 'bmfitness-pricing-block',
+		'render_callback' => 'bmfitness_pricing_block_render',
+		'attributes'      => array(
+			'section_slug' => array(
+				'type'    => 'string',
+				'default' => 'fitness',
+			),
+			'plan_ids'     => array(
+				'type'    => 'array',
+				'default' => array(),
+				'items'   => array( 'type' => 'integer' ),
+			),
+		),
+	) );
+}
+add_action( 'init', 'bmfitness_register_pricing_block' );
+
+/**
+ * Server-side render callback for the bmfitness/pricing-plans block.
+ *
+ * @param array $attributes Block attributes.
+ * @return string Rendered pricing grid HTML.
+ */
+function bmfitness_pricing_block_render( $attributes ) {
+	$section_slug = isset( $attributes['section_slug'] ) ? sanitize_key( $attributes['section_slug'] ) : 'fitness';
+	$plan_ids     = ( isset( $attributes['plan_ids'] ) && is_array( $attributes['plan_ids'] ) )
+		? array_map( 'absint', $attributes['plan_ids'] )
+		: array();
+
+	// Apply any extra CSS classes set via the block editor's "Additional CSS class(es)" field.
+	$classes = 'bmfitness-pricing-plans';
+	if ( ! empty( $attributes['className'] ) ) {
+		$classes .= ' ' . $attributes['className'];
+	}
+
+	ob_start();
+	echo '<div class="' . esc_attr( $classes ) . '">';
+	bmfitness_render_pricing_grid( $section_slug, $plan_ids );
+	echo '</div>';
+	return ob_get_clean();
 }
 
 /**

@@ -19,6 +19,9 @@
 	--container-8xl: 100rem; /* 1600px — use as max-w-8xl */
 }
 
+body { @apply overflow-x-hidden;}
+main { @apply text-sm md:text-base; }
+
 /* --- WordPress block content --- */
 
 .prose :where(figure) { @apply my-4 md:my-8 lg:my-10; }
@@ -35,6 +38,7 @@
 /* Columns: WP already flexes them — add gap and stack on mobile */
 .prose .wp-block-columns { @apply flex flex-col md:flex-row gap-4 md:gap-8 my-4 md:my-8 lg:my-10; }
 .prose .wp-block-column  { @apply flex-1 min-w-0; }
+.single-post .prose .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column { @apply flex-none;}
 
 /* Images */
 .prose .wp-block-image { @apply my-0; }
@@ -45,4 +49,42 @@
 .prose .wp-block-table td,
 .prose .wp-block-table th { @apply p-1 md:p-4 text-xs md:text-base; }
 
-main { @apply text-sm md:text-base; }
+.prose .wp-element-button { @apply w-full sm:w-auto px-8 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg transition cursor-pointer; }
+
+.page-wellness-cjenik .prose .wp-block-table tr:first-child {
+	@apply bg-gray-100 text-gray-600;
+}
+
+.prose .wp-block-columns-is-layout-flex { @apply mt-0 mb-10 md:mb-25;}
+
+.prose > .wp-block-group { @apply py-10 md:py-25; }
+
+.prose .wp-block-group .wp-block-columns-is-layout-flex { @apply mb-0; }
+
+.prose .wp-block-gallery { @apply my-0 py-10 md:py-25;}
+
+.prose > .wp-block-group:nth-child(even) {
+	@apply bg-gray-100;
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+}
+
+.prose > .wp-block-group:nth-child(even) .wp-block-group__inner-container {
+	@apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.prose .bmfitness-pricing-plans {@apply flex max-w-[400px];}
+
+.prose .wp-block-list {@apply list-disc ml-4;}
+
+.prose .bmfitness-pricing-plans img { @apply w-1/2; }
+
+.prose .pt-0 { @apply pt-0; }
+.prose .pb-0 { @apply pb-0; }
+.prose .mt-0 { @apply mt-0; }
+.prose .mb-0 { @apply mb-0; }
+.prose .items-end {@apply items-end;}
+
+.prose .wp-block-paragraph > a { @apply underline hover:no-underline; }
+
+.page-normatec-terapija .prose .bmfitness-pricing-plans { @apply max-w-full}

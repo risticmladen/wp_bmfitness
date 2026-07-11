@@ -35,8 +35,8 @@
     --color-white: #fff;
     --spacing: 0.25rem;
     --container-2xl: 42rem;
-    --container-3xl: 48rem;
     --container-4xl: 56rem;
+    --container-6xl: 72rem;
     --container-7xl: 80rem;
     --text-xs: 0.75rem;
     --text-xs--line-height: calc(1 / 0.75);
@@ -229,6 +229,17 @@
   .visible {
     visibility: visible;
   }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
   .absolute {
     position: absolute;
   }
@@ -237,6 +248,9 @@
   }
   .sticky {
     position: sticky;
+  }
+  .inset-0 {
+    inset: calc(var(--spacing) * 0);
   }
   .top-0 {
     top: calc(var(--spacing) * 0);
@@ -286,17 +300,20 @@
   .mt-8 {
     margin-top: calc(var(--spacing) * 8);
   }
-  .mt-10 {
-    margin-top: calc(var(--spacing) * 10);
-  }
   .mt-12 {
     margin-top: calc(var(--spacing) * 12);
   }
   .mt-16 {
     margin-top: calc(var(--spacing) * 16);
   }
+  .mt-20 {
+    margin-top: calc(var(--spacing) * 20);
+  }
   .mt-auto {
     margin-top: auto;
+  }
+  .mb-0 {
+    margin-bottom: calc(var(--spacing) * 0);
   }
   .mb-1 {
     margin-bottom: calc(var(--spacing) * 1);
@@ -309,6 +326,9 @@
   }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
+  }
+  .mb-5 {
+    margin-bottom: calc(var(--spacing) * 5);
   }
   .mb-6 {
     margin-bottom: calc(var(--spacing) * 6);
@@ -376,6 +396,12 @@
   .h-auto {
     height: auto;
   }
+  .h-full {
+    height: 100%;
+  }
+  .max-h-\[700px\] {
+    max-height: 700px;
+  }
   .min-h-\[220px\] {
     min-height: 220px;
   }
@@ -400,26 +426,32 @@
   .w-52 {
     width: calc(var(--spacing) * 52);
   }
-  .w-\[50\%\] {
-    width: 50%;
+  .w-auto {
+    width: auto;
   }
   .w-full {
     width: 100%;
   }
+  .max-w-1\/2 {
+    max-width: calc(1 / 2 * 100%);
+  }
   .max-w-2xl {
     max-width: var(--container-2xl);
   }
-  .max-w-3xl {
-    max-width: var(--container-3xl);
-  }
   .max-w-4xl {
     max-width: var(--container-4xl);
+  }
+  .max-w-6xl {
+    max-width: var(--container-6xl);
   }
   .max-w-7xl {
     max-width: var(--container-7xl);
   }
   .max-w-8xl {
     max-width: var(--container-8xl);
+  }
+  .max-w-\[33\%\] {
+    max-width: 33%;
   }
   .max-w-fit {
     max-width: fit-content;
@@ -711,8 +743,8 @@
   .pt-8 {
     padding-top: calc(var(--spacing) * 8);
   }
-  .pb-20 {
-    padding-bottom: calc(var(--spacing) * 20);
+  .pb-25 {
+    padding-bottom: calc(var(--spacing) * 25);
   }
   .pl-4 {
     padding-left: calc(var(--spacing) * 4);
@@ -739,6 +771,10 @@
   .text-6xl {
     font-size: var(--text-6xl);
     line-height: var(--tw-leading, var(--text-6xl--line-height));
+  }
+  .text-base {
+    font-size: var(--text-base);
+    line-height: var(--tw-leading, var(--text-base--line-height));
   }
   .text-lg {
     font-size: var(--text-lg);
@@ -884,6 +920,9 @@
     --tw-outline-style: none;
     outline-style: none;
   }
+  .text-shadow-2xs {
+    text-shadow: 0px 1px 0px var(--tw-text-shadow-color, rgb(0 0 0 / 0.15));
+  }
   .hover\:bg-blue-700 {
     &:hover {
       @media (hover: hover) {
@@ -957,11 +996,6 @@
       padding-inline: calc(var(--spacing) * 6);
     }
   }
-  .md\:col-span-1 {
-    @media (width >= 48rem) {
-      grid-column: span 1 / span 1;
-    }
-  }
   .md\:col-span-2 {
     @media (width >= 48rem) {
       grid-column: span 2 / span 2;
@@ -987,6 +1021,11 @@
       min-height: 520px;
     }
   }
+  .md\:max-w-none {
+    @media (width >= 48rem) {
+      max-width: none;
+    }
+  }
   .md\:grid-cols-1 {
     @media (width >= 48rem) {
       grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -1007,6 +1046,11 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
+  .md\:grid-cols-5 {
+    @media (width >= 48rem) {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
   .md\:gap-24 {
     @media (width >= 48rem) {
       gap: calc(var(--spacing) * 24);
@@ -1017,14 +1061,14 @@
       padding-inline: calc(var(--spacing) * 8);
     }
   }
-  .md\:py-12 {
+  .md\:py-8 {
     @media (width >= 48rem) {
-      padding-block: calc(var(--spacing) * 12);
+      padding-block: calc(var(--spacing) * 8);
     }
   }
-  .md\:py-20 {
+  .md\:py-25 {
     @media (width >= 48rem) {
-      padding-block: calc(var(--spacing) * 20);
+      padding-block: calc(var(--spacing) * 25);
     }
   }
   .lg\:mt-20 {
@@ -1046,6 +1090,29 @@
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 8);
     }
+  }
+  .lg\:text-3xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-3xl);
+      line-height: var(--tw-leading, var(--text-3xl--line-height));
+    }
+  }
+  .lg\:text-xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-xl);
+      line-height: var(--tw-leading, var(--text-xl--line-height));
+    }
+  }
+}
+body {
+  overflow-x: hidden;
+}
+main {
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  @media (width >= 48rem) {
+    font-size: var(--text-base);
+    line-height: var(--tw-leading, var(--text-base--line-height));
   }
 }
 .prose :where(figure) {
@@ -1106,6 +1173,9 @@
   min-width: calc(var(--spacing) * 0);
   flex: 1;
 }
+.single-post .prose .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column {
+  flex: none;
+}
 .prose .wp-block-image {
   margin-block: calc(var(--spacing) * 0);
 }
@@ -1129,13 +1199,107 @@
     line-height: var(--tw-leading, var(--text-base--line-height));
   }
 }
-main {
-  font-size: var(--text-sm);
-  line-height: var(--tw-leading, var(--text-sm--line-height));
-  @media (width >= 48rem) {
-    font-size: var(--text-base);
-    line-height: var(--tw-leading, var(--text-base--line-height));
+.prose .wp-element-button {
+  width: 100%;
+  cursor: pointer;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-brand-600);
+  padding-inline: calc(var(--spacing) * 8);
+  padding-block: calc(var(--spacing) * 3);
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-brand-700);
+    }
   }
+  @media (width >= 40rem) {
+    width: auto;
+  }
+}
+.page-wellness-cjenik .prose .wp-block-table tr:first-child {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-600);
+}
+.prose .wp-block-columns-is-layout-flex {
+  margin-top: calc(var(--spacing) * 0);
+  margin-bottom: calc(var(--spacing) * 10);
+  @media (width >= 48rem) {
+    margin-bottom: calc(var(--spacing) * 25);
+  }
+}
+.prose > .wp-block-group {
+  padding-block: calc(var(--spacing) * 10);
+  @media (width >= 48rem) {
+    padding-block: calc(var(--spacing) * 25);
+  }
+}
+.prose .wp-block-group .wp-block-columns-is-layout-flex {
+  margin-bottom: calc(var(--spacing) * 0);
+}
+.prose .wp-block-gallery {
+  margin-block: calc(var(--spacing) * 0);
+  padding-block: calc(var(--spacing) * 10);
+  @media (width >= 48rem) {
+    padding-block: calc(var(--spacing) * 25);
+  }
+}
+.prose > .wp-block-group:nth-child(even) {
+  background-color: var(--color-gray-100);
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+.prose > .wp-block-group:nth-child(even) .wp-block-group__inner-container {
+  margin-inline: auto;
+  max-width: var(--container-7xl);
+  padding-inline: calc(var(--spacing) * 4);
+  @media (width >= 40rem) {
+    padding-inline: calc(var(--spacing) * 6);
+  }
+  @media (width >= 64rem) {
+    padding-inline: calc(var(--spacing) * 8);
+  }
+}
+.prose .bmfitness-pricing-plans {
+  display: flex;
+  max-width: 400px;
+}
+.prose .wp-block-list {
+  margin-left: calc(var(--spacing) * 4);
+  list-style-type: disc;
+}
+.prose .bmfitness-pricing-plans img {
+  width: calc(1 / 2 * 100%);
+}
+.prose .pt-0 {
+  padding-top: calc(var(--spacing) * 0);
+}
+.prose .pb-0 {
+  padding-bottom: calc(var(--spacing) * 0);
+}
+.prose .mt-0 {
+  margin-top: calc(var(--spacing) * 0);
+}
+.prose .mb-0 {
+  margin-bottom: calc(var(--spacing) * 0);
+}
+.prose .items-end {
+  align-items: flex-end;
+}
+.prose .wp-block-paragraph > a {
+  text-decoration-line: underline;
+  &:hover {
+    @media (hover: hover) {
+      text-decoration-line: none;
+    }
+  }
+}
+.page-normatec-terapija .prose .bmfitness-pricing-plans {
+  max-width: 100%;
 }
 @property --tw-scale-x {
   syntax: "*";
@@ -1337,6 +1501,15 @@ main {
   syntax: "*";
   inherits: false;
 }
+@property --tw-text-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-text-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
@@ -1385,6 +1558,8 @@ main {
       --tw-backdrop-opacity: initial;
       --tw-backdrop-saturate: initial;
       --tw-backdrop-sepia: initial;
+      --tw-text-shadow-color: initial;
+      --tw-text-shadow-alpha: 100%;
     }
   }
 }

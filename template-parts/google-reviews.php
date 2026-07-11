@@ -39,7 +39,7 @@ if ( empty( $reviews ) ) {
 }
 ?>
 
-<section class="py-20 bg-white">
+<section class="py-10 md:py-25 bg-white">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="text-center mb-12">
 			<div class="flex items-center justify-center gap-2 mb-4">

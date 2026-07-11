@@ -44,17 +44,17 @@ get_header();
 				</div>
 
 				<div>
-					<label for="name" class="block text-sm font-medium text-gray-700 mb-1"><?php esc_html_e( 'Name', 'bmfitness' ); ?></label>
+					<label for="name" class="block text-sm font-medium text-gray-700 mb-1"><?php esc_html_e( 'Vaše ime', 'bmfitness' ); ?></label>
 					<input type="text" id="name" name="name" required
 						   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
 				</div>
 				<div>
-					<label for="email" class="block text-sm font-medium text-gray-700 mb-1"><?php esc_html_e( 'Email', 'bmfitness' ); ?></label>
+					<label for="email" class="block text-sm font-medium text-gray-700 mb-1"><?php esc_html_e( 'Vaša Email adresa', 'bmfitness' ); ?></label>
 					<input type="email" id="email" name="email" required
 						   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
 				</div>
 				<div>
-					<label for="message" class="block text-sm font-medium text-gray-700 mb-1"><?php esc_html_e( 'Message', 'bmfitness' ); ?></label>
+					<label for="message" class="block text-sm font-medium text-gray-700 mb-1"><?php esc_html_e( 'Poruka', 'bmfitness' ); ?></label>
 					<textarea id="message" name="message" rows="5" required
 							  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition resize-y"></textarea>
 				</div>
@@ -75,19 +75,23 @@ get_header();
 				<h2 class="text-xl font-semibold text-gray-900 mb-6"><?php esc_html_e( 'Naši kontakt podatci', 'bmfitness' ); ?></h2>
 				<ul class="space-y-4 text-gray-700">
 					<li class="flex items-start gap-3">
-						<span class="text-xl">📍</span>
 						<span>Ulica Republike br.2<br>31300 Beli Manastir</span>
 					</li>
-					<li class="flex items-start gap-3">
-						<span class="text-xl">📞</span>
+                    <li class="mb-0"><span class="text-gray-600">Fitness:</span></li>
+					<li class="flex items-center gap-3 mb-0">
 						<a href="tel:+385976465977" class="hover:text-brand-600 transition-colors">+385 97 6465977</a>
 					</li>
-					<li class="flex items-start gap-3">
-						<span class="text-xl">✉️</span>
-						<a href="mailto:info@bmfitness.hr" class="hover:text-brand-600 transition-colors">info@bmfitness.hr</a>
+                    <li class="flex items-center gap-3">
+                        <a href="mailto:info@bmfitness.hr" class="hover:text-brand-600 transition-colors">info@bmfitness.hr</a>
+                    </li>
+                    <li class="mb-0"><span class="text-gray-600">Wellness:</span></li>
+                    <li class="flex items-center gap-3 mb-0">
+                        <a href="tel:+385976039033" class="hover:text-brand-600 transition-colors">+385 97 603 9033</a>
+                    </li>
+					<li class="flex items-center gap-3">
+						<a href="mailto:wellness@bmfitness.hr" class="hover:text-brand-600 transition-colors">wellness@bmfitness.hr</a>
 					</li>
 					<li class="flex items-start gap-3">
-						<span class="text-xl">🕐</span>
 						<span>Radno vrijeme: 0-24h <br>
                               Pult, Pon-Sub: 08:00-20:00h</span>
 					</li>

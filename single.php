@@ -8,11 +8,11 @@
 get_header();
 ?>
 
-<article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+<article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 	<?php while ( have_posts() ) : the_post(); ?>
 
 		<?php if ( has_post_thumbnail() ) : ?>
-			<div class="mb-8 rounded-xl overflow-hidden">
+			<div class="mb-8 rounded-xl overflow-hidden max-h-[700px]">
 				<?php the_post_thumbnail( 'large', array( 'class' => 'w-full h-auto' ) ); ?>
 			</div>
 		<?php endif; ?>
@@ -31,14 +31,13 @@ get_header();
 		</div>
 
 		<nav class="mt-12 pt-8 border-t border-gray-200 flex justify-between">
-			<div>
-				<?php previous_post_link( '%link', '← %title' ); ?>
+			<div class="max-w-[33%]">
+				<?php previous_post_link( '%link', '← Prethodni blog post' ); ?>
 			</div>
-			<div>
-				<?php next_post_link( '%link', '%title →' ); ?>
+			<div class="max-w-[33%]">
+				<?php next_post_link( '%link', 'Idući blog post →' ); ?>
 			</div>
 		</nav>
-
 	<?php endwhile; ?>
 </article>
 

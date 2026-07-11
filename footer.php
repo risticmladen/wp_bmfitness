@@ -37,7 +37,7 @@
                 	<li>Pult:</li>
                 	<li>Pon-Sub: 08:00-20:00h</li>
                     <li><a href="tel:+385976465977">+385 97 6465977</a></li>
-                    <li><a href="mailto:">info@bmfitness.hr</a></li>
+                    <li><a href="mailto:info@bmfitness.hr">info@bmfitness.hr</a></li>
                     <li>
                         <ul class="flex flex-row items-center gap-3 mt-2">
                             <li>
@@ -71,7 +71,7 @@
                     <li>Radno vrijeme:</li>
                 	<li>Pon-Sub: 08:00-20:00h</li>
                     <li><a href="tel:+385976039033">+385 97 603 9033</a> (rezervacije)</li>
-                    <li><a href="mailto:">info@bmfitness.hr</a></li>
+                    <li><a href="mailto:wellness@bmfitness.hr">wellness@bmfitness.hr</a></li>
                     <li>
                         <ul class="flex flex-row items-center gap-3 mt-2">
                             <li>

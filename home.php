@@ -29,7 +29,7 @@ get_header();
 						</h2>
 						<p class="text-gray-600 text-sm mb-4"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 20 ) ); ?></p>
 						<a href="<?php the_permalink(); ?>" class="text-brand-600 text-sm font-medium hover:text-brand-700">
-							<?php esc_html_e( 'Read more →', 'bmfitness' ); ?>
+							<?php esc_html_e( 'Pročitaj →', 'bmfitness' ); ?>
 						</a>
 					</div>
 				</article>
