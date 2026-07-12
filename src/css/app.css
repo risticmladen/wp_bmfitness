@@ -47,7 +47,7 @@ main { @apply text-sm md:text-base; }
 .prose .has-fixed-layout td { @apply break-keep; }
 
 .prose .wp-block-table td,
-.prose .wp-block-table th { @apply p-1 md:p-4 text-xs md:text-base; }
+.prose .wp-block-table th { @apply p-1 md:p-4 text-sm md:text-base; }
 
 .prose .wp-element-button { @apply w-full sm:w-auto px-8 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg transition cursor-pointer; }
 
@@ -83,7 +83,11 @@ main { @apply text-sm md:text-base; }
 .prose .pb-0 { @apply pb-0; }
 .prose .mt-0 { @apply mt-0; }
 .prose .mb-0 { @apply mb-0; }
-.prose .items-end {@apply items-end;}
+.prose .items-end { @apply items-end; }
+.prose .items-center { @apply items-center; }
+
+.prose .our-offer-block { @apply items-center lg:items-end; }
+.prose .package-recommend { @apply mx-auto; }
 
 .prose .wp-block-paragraph > a { @apply underline hover:no-underline; }
 

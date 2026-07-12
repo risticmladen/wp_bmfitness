@@ -49,7 +49,7 @@ $fit_gal_btn_url   = get_theme_mod( 'gallery_fitness_btn_url', '' );
 ?>
 <section class="py-10 md:py-25 bg-gray-100">
 	<div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="grid gap-8 md:grid-cols-5 items-start">
+		<div class="grid gap-10 md:grid-cols-5 items-start">
             <div class="md:col-span-3">
 				<?php bmfitness_render_gallery_slider( 'fitness' ); ?>
 			</div>
@@ -106,7 +106,7 @@ $well_gal_btn_url   = get_theme_mod( 'gallery_wellness_btn_url', '' );
 ?>
 <section class="py-10 md:py-25 bg-gray-100">
 	<div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="grid gap-8 md:grid-cols-5 items-start">
+		<div class="grid gap-10 md:grid-cols-5 items-start">
             <div class="md:col-span-3">
                 <?php bmfitness_render_gallery_slider( 'wellness' ); ?>
             </div>

@@ -45,6 +45,46 @@ function bmfitness_setup() {
 add_action( 'after_setup_theme', 'bmfitness_setup' );
 
 /**
+ * Output LocalBusiness JSON-LD structured data for better Google visibility.
+ * Edit the details below to match the real business info.
+ */
+function bmfitness_local_business_schema() {
+	if ( ! is_front_page() ) {
+		return;
+	}
+	$schema = array(
+		'@context'        => 'https://schema.org',
+		'@type'           => 'HealthAndBeautyBusiness',
+		'name'            => get_bloginfo( 'BM Fitness' ),
+		'url'             => home_url('https://bmfitness.hr/'),
+		'telephone'       => '+385 97 6465977',
+		'email'           => 'info@bmfitness.hr',
+		'address'         => array(
+			'@type'           => 'PostalAddress',
+			'streetAddress'   => 'Ulica Republike br. 2',
+			'addressLocality' => 'Beli Manastir',
+			'postalCode'      => '31300',
+			'addressCountry'  => 'HR',
+		),
+		'openingHoursSpecification' => array(
+			array(
+				'@type'     => 'OpeningHoursSpecification',
+				'dayOfWeek' => array( 'Monday','Tuesday','Wednesday','Thursday','Friday' ),
+				'opens'     => '00:00',
+				'closes'    => '24:00',
+			)
+		),
+		'sameAs' => array(
+			'https://www.instagram.com/bm_fitness_centar/',
+			'https://www.instagram.com/bm.wellness/',
+			'https://www.facebook.com/share/1YCqdeJsqU',
+		),
+	);
+	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT ) . '</script>' . "\n";
+}
+add_action( 'wp_head', 'bmfitness_local_business_schema' );
+
+/**
  * Enqueue styles and scripts.
  */
 function bmfitness_enqueue_assets() {
@@ -144,7 +184,7 @@ class BMFitness_Nav_Walker extends Walker_Nav_Menu {
 			if ( 0 === $depth ) {
 				$output .= '<li class="list-none">';
 
-				$link_class = 'text-white hover:text-brand-600 transition-colors font-medium';
+				$link_class = 'text-white hover:text-brand-600 transition-colors py-3 uppercase text-sm font-semibold tracking-wider block w-full';
 				if ( $is_current ) {
 					$link_class .= ' text-brand-600';
 				}
@@ -152,8 +192,8 @@ class BMFitness_Nav_Walker extends Walker_Nav_Menu {
 				if ( $has_children ) {
 					// Wrap link + toggle button; close div before start_lvl adds the <ul>.
 					$output .= '<div class="flex items-center justify-between">';
-					$output .= '<a href="' . esc_url( $item->url ) . '" class="' . esc_attr( $link_class ) . '">' . esc_html( $item->title ) . '</a>';
-					$output .= '<button type="button" class="mobile-submenu-toggle p-1 text-gray-400 hover:text-white transition-colors" aria-expanded="false">';
+					$output .= '<a href="' . esc_url( $item->url ) . '" class="' . esc_attr( $link_class ) . ' mobile-submenu-link" aria-expanded="false">' . esc_html( $item->title ) . '</a>';
+					$output .= '<button type="button" class="mobile-submenu-toggle py-1 pl-1 pr-3 text-gray-400 hover:text-white transition-colors" aria-expanded="false">';
 					$output .= '<svg class="w-5 h-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>';
 					$output .= '</button>';
 					$output .= '</div>';
@@ -164,7 +204,7 @@ class BMFitness_Nav_Walker extends Walker_Nav_Menu {
 				// Mobile submenu item.
 				$output .= '<li class="list-none">';
 
-				$link_class = 'block py-2 text-sm text-gray-300 hover:text-brand-600 transition-colors';
+				$link_class = 'block py-3 lg:py-2 text-sm text-gray-300 hover:text-brand-600 transition-colors';
 				if ( $is_current ) {
 					$link_class .= ' text-brand-600';
 				}
@@ -565,7 +605,7 @@ function bmfitness_render_pricing_grid( $section_slug, $plan_ids = array() ) {
 	);
 	$cols_class = isset( $cols_map[ $plan_count ] ) ? $cols_map[ $plan_count ] : 'md:grid-cols-3';
 	?>
-	<div class="grid gap-5 md:gap-24 <?php echo esc_attr( $cols_class ); ?>">
+	<div class="grid gap-5 md:gap-12 lg:gap-24 <?php echo esc_attr( $cols_class ); ?>">
 		<?php while ( $query->have_posts() ) : $query->the_post();
 			$description = get_post_meta( get_the_ID(), '_plan_description', true );
 			$breakdown   = get_post_meta( get_the_ID(), '_plan_price_breakdown', true );
@@ -573,33 +613,33 @@ function bmfitness_render_pricing_grid( $section_slug, $plan_ids = array() ) {
 			$old_price   = get_post_meta( get_the_ID(), '_old_price', true );
 			$new_price   = get_post_meta( get_the_ID(), '_new_price', true );
 		?>
-		<div class="relative bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 text-center hover:shadow-md transition">
+		<div class="relative bg-gray-50 rounded-xl overflow-hidden shadow-sm border border-gray-100 text-center hover:shadow-md transition">
 				<?php if ( $plan_url ) : ?>
 					<a href="<?php echo esc_url( $plan_url ); ?>" class="absolute inset-0 z-10 w-full h-full">
 						<span class="sr-only"><?php the_title(); ?></span>
 					</a>
 				<?php endif; ?>
 				<?php if ( has_post_thumbnail() ) : ?>
-					<div class="w-full overflow-hidden flex items-center justify-center mx-auto max-w-1/2 md:max-w-none">
+					<div class="w-full overflow-hidden flex items-center justify-center md:max-w-none bg-white">
 					<?php the_post_thumbnail( 'pricing-plan', array(
 						'class' => 'w-auto h-full object-cover',
 						'alt'   => esc_attr( get_the_title() ),
 					) ); ?>
 					</div>
 				<?php endif; ?>
-				<div class="p-5 md:px-8 md:py-8">
-					<h3 class="text-xl font-semibold text-gray-900 mb-1 mx-auto"><?php the_title(); ?></h3>
+				<div class="p-3 md:px-8 md:py-8">
+					<h3 class="text-lg lg:text-xl font-semibold text-gray-900 mb-1 mx-auto"><?php the_title(); ?></h3>
 					<?php if ( $description ) : ?>
 						<p class="text-gray-500 mt-1"><?php echo esc_html( $description ); ?></p>
 					<?php endif; ?>
 					<?php if ( $breakdown ) : ?>
-						<p class="text-gray-500 text-xl mt-2 mb-2"><?php echo esc_html( $breakdown ); ?></p>
+						<p class="text-gray-500 lg:text-xl mt-2 mb-2"><?php echo esc_html( $breakdown ); ?></p>
 					<?php endif; ?>
 					<?php if ( $old_price ) : ?>
 						<p class="text-gray-400 line-through mb-2"><?php echo esc_html( $old_price ); ?>&euro;</p>
 					<?php endif; ?>
 					<?php if ( $new_price ) : ?>
-						<p class="text-gray-600 text-5xl font-semibold"><?php echo esc_html( $new_price ); ?>&euro;</p>
+						<p class="text-gray-600 text-2xl lg:text-5xl font-semibold"><?php echo esc_html( $new_price ); ?>&euro;</p>
 					<?php endif; ?>
 				</div>
 			</div>

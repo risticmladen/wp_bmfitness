@@ -71,7 +71,7 @@ get_header();
 
 		<!-- Contact details & map placeholder -->
 		<div class="space-y-8">
-			<div class="bg-gray-50 rounded-xl p-8 border border-gray-100">
+			<div class="bg-gray-50 rounded-xl p-4 lg:p-8 border border-gray-100">
 				<h2 class="text-xl font-semibold text-gray-900 mb-6"><?php esc_html_e( 'Naši kontakt podatci', 'bmfitness' ); ?></h2>
 				<ul class="space-y-4 text-gray-700">
 					<li class="flex items-start gap-3">
