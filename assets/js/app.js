@@ -160,4 +160,74 @@
 			}
 		});
 	});
+
+	/* ───── Motion preference ───── */
+	var prefersReducedMotion = window.matchMedia &&
+		window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	/* ───── Hero background parallax ─────
+	 * Translates the .hero-parallax-bg layer slower than the page scroll
+	 * for a smooth depth effect. Uses requestAnimationFrame and only the
+	 * transform property, so it stays on the GPU compositor. */
+	var parallaxLayers = Array.prototype.slice.call(
+		document.querySelectorAll('[data-parallax]')
+	);
+	if (!prefersReducedMotion && parallaxLayers.length) {
+		var parallaxTicking = false;
+
+		function updateParallax() {
+			var vh = window.innerHeight;
+			parallaxLayers.forEach(function (layer) {
+				var section = layer.parentElement;
+				if (!section) return;
+				var rect = section.getBoundingClientRect();
+				// Skip work when the section is well outside the viewport.
+				if (rect.bottom < -100 || rect.top > vh + 100) return;
+				// Progress from -1 (section entering at bottom) to 1 (leaving at top).
+				var progress = (rect.top + rect.height / 2 - vh / 2) /
+					(vh / 2 + rect.height / 2);
+				// Cap shift to 10% of section height to stay within the layer's
+				// 12% overflow margin (prevents exposing bare edges).
+				var maxShift = Math.min(70, rect.height * 0.1);
+				var y = (-progress * maxShift).toFixed(2);
+				layer.style.transform = 'translate3d(0,' + y + 'px,0)';
+			});
+			parallaxTicking = false;
+		}
+
+		function requestParallax() {
+			if (!parallaxTicking) {
+				parallaxTicking = true;
+				window.requestAnimationFrame(updateParallax);
+			}
+		}
+
+		window.addEventListener('scroll', requestParallax, { passive: true });
+		window.addEventListener('resize', requestParallax, { passive: true });
+		updateParallax();
+	}
+
+	/* ───── Reveal on scroll ─────
+	 * Elements marked with [data-reveal] fade/slide in as they enter the
+	 * viewport. Each element is revealed once, then unobserved. */
+	var revealEls = Array.prototype.slice.call(
+		document.querySelectorAll('[data-reveal]')
+	);
+	if (revealEls.length) {
+		if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+			// No animation available — just show everything.
+			revealEls.forEach(function (el) { el.classList.add('is-revealed'); });
+		} else {
+			var revealObserver = new IntersectionObserver(function (entries, obs) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-revealed');
+						obs.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+			revealEls.forEach(function (el) { revealObserver.observe(el); });
+		}
+	}
 })();

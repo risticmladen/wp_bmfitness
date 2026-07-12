@@ -51,10 +51,10 @@ $fit_gal_btn_url   = get_theme_mod( 'gallery_fitness_btn_url', '' );
 <section class="py-10 md:py-25 bg-gray-100">
 	<div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="grid gap-10 md:grid-cols-5 items-start">
-            <div class="md:col-span-3">
+            <div class="md:col-span-3" data-reveal="left">
 				<?php bmfitness_render_gallery_slider( 'fitness' ); ?>
 			</div>
-			<div class="md:col-span-2 flex flex-col justify-center">
+			<div class="md:col-span-2 flex flex-col justify-center" data-reveal="right" style="--reveal-delay: 150ms;">
 				<?php if ( $fit_gal_title ) : ?>
 					<h3 class="text-2xl font-bold text-gray-900 mb-4"><?php echo esc_html( $fit_gal_title ); ?></h3>
 				<?php endif; ?>
@@ -108,10 +108,10 @@ $well_gal_btn_url   = get_theme_mod( 'gallery_wellness_btn_url', '' );
 <section class="py-10 md:py-25 bg-gray-100">
 	<div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="grid gap-10 md:grid-cols-5 items-start">
-            <div class="md:col-span-3">
+            <div class="md:col-span-3" data-reveal="left">
                 <?php bmfitness_render_gallery_slider( 'wellness' ); ?>
             </div>
-			<div class="md:col-span-2 flex flex-col justify-center">
+			<div class="md:col-span-2 flex flex-col justify-center" data-reveal="right" style="--reveal-delay: 150ms;">
 				<?php if ( $well_gal_title ) : ?>
 					<h3 class="text-2xl font-bold text-gray-900 mb-4"><?php echo esc_html( $well_gal_title ); ?></h3>
 				<?php endif; ?>
@@ -134,7 +134,7 @@ $well_gal_btn_url   = get_theme_mod( 'gallery_wellness_btn_url', '' );
 
 <!-- CTA -->
 <section class="py-20 bg-brand-600 text-white">
-	<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+		<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-reveal="zoom">
 		<h2 class="text-2xl lg:text-3xl font-bold mb-4"><?php esc_html_e( 'Ostvari svoje ciljeve!', 'bmfitness' ); ?></h2>
 		<p class="text-base lg:text-xl mb-8"><?php esc_html_e( 'Pridruži se BM Fitness zajednici i počni živjeti zdravije!', 'bmfitness' ); ?></p>
 		<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'contact' ) ) ); ?>"

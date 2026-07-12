@@ -384,12 +384,14 @@ function bmfitness_render_hero( $service_key ) {
 	$opacity = absint( get_theme_mod( 'hero_' . $service_key . '_overlay_opacity', 55 ) ) / 100;
 	?>
 	<section
-		class="relative min-h-[220px] md:min-h-[520px] text-white<?php echo $image ? '' : ' bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900'; ?>"
-		<?php if ( $image ) : ?>
-			style="background-image: url('<?php echo esc_url( $image ); ?>'); background-size: cover; background-position: center; background-repeat: no-repeat;"
-		<?php endif; ?>
+		class="hero-parallax relative min-h-[220px] md:min-h-[520px] text-white<?php echo $image ? '' : ' bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900'; ?>"
 	>
 		<?php if ( $image ) : ?>
+			<div
+				class="hero-parallax-bg"
+				data-parallax
+				style="background-image: url('<?php echo esc_url( $image ); ?>');"
+			></div>
 			<div style="position:absolute;inset:0;background:#000;opacity:<?php echo esc_attr( $opacity ); ?>;pointer-events:none;"></div>
 		<?php endif; ?>
 	</section>
@@ -614,14 +616,19 @@ function bmfitness_render_pricing_grid( $section_slug, $plan_ids = array() ) {
 	$cols_class = isset( $cols_map[ $plan_count ] ) ? $cols_map[ $plan_count ] : 'md:grid-cols-3';
 	?>
 	<div class="grid gap-5 md:gap-12 lg:gap-24 <?php echo esc_attr( $cols_class ); ?>">
-		<?php while ( $query->have_posts() ) : $query->the_post();
+		<?php
+		$card_index = 0;
+		while ( $query->have_posts() ) : $query->the_post();
 			$description = get_post_meta( get_the_ID(), '_plan_description', true );
 			$breakdown   = get_post_meta( get_the_ID(), '_plan_price_breakdown', true );
 			$plan_url    = bmfitness_resolve_plan_url( get_post_meta( get_the_ID(), '_plan_url', true ) );
 			$old_price   = get_post_meta( get_the_ID(), '_old_price', true );
 			$new_price   = get_post_meta( get_the_ID(), '_new_price', true );
 		?>
-		<div class="relative bg-gray-50 rounded-xl overflow-hidden shadow-sm border border-gray-100 text-center hover:shadow-md transition">
+		<div class="relative bg-gray-50 rounded-xl overflow-hidden shadow-sm border border-gray-100 text-center hover:shadow-md transition"
+			data-reveal
+			style="--reveal-delay: <?php echo esc_attr( $card_index * 120 ); ?>ms;">
+			<?php $card_index++; ?>
 				<?php if ( $plan_url ) : ?>
 					<a href="<?php echo esc_url( $plan_url ); ?>" class="absolute inset-0 z-10 w-full h-full">
 						<span class="sr-only"><?php the_title(); ?></span>

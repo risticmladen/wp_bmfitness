@@ -41,7 +41,7 @@ if ( empty( $reviews ) ) {
 
 <section class="py-10 md:py-25 bg-white">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="text-center mb-12">
+		<div class="text-center mb-12" data-reveal>
 			<div class="flex items-center justify-center gap-2 mb-4">
 				<!-- Google "G" icon -->
 				<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none">
@@ -59,8 +59,9 @@ if ( empty( $reviews ) ) {
 		</div>
 
 		<div class="grid gap-6 md:grid-cols-3" id="google-reviews">
-			<?php foreach ( $reviews as $review ) : ?>
-				<div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
+			<?php $review_index = 0; foreach ( $reviews as $review ) : ?>
+				<div class="bg-gray-50 rounded-xl p-6 border border-gray-100" data-reveal style="--reveal-delay: <?php echo esc_attr( $review_index * 120 ); ?>ms;">
+					<?php $review_index++; ?>
 					<div class="flex items-center gap-3 mb-4">
 						<div class="w-10 h-10 bg-brand-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
 							<?php echo esc_html( mb_substr( $review['author'], 0, 1 ) ); ?>
@@ -79,7 +80,7 @@ if ( empty( $reviews ) ) {
 			<?php endforeach; ?>
 		</div>
 
-		<div class="text-center mt-8">
+		<div class="text-center mt-8" data-reveal>
 			<a href="<?php echo esc_url( $google_reviews_url ); ?>"
 			   target="_blank"
 			   rel="noopener noreferrer"
