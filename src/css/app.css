@@ -90,5 +90,3 @@ main { @apply text-sm md:text-base; }
 .prose .package-recommend { @apply mx-auto; }
 
 .prose .wp-block-paragraph > a { @apply underline hover:no-underline; }
-
-.page-normatec-terapija .prose .bmfitness-pricing-plans { @apply max-w-full}
