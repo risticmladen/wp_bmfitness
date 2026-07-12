@@ -20,15 +20,15 @@ get_header();
 			$contact_status = isset( $_GET['contact'] ) ? sanitize_key( wp_unslash( $_GET['contact'] ) ) : '';
 			if ( 'sent' === $contact_status ) : ?>
 				<div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-800" role="status">
-					<?php esc_html_e( 'Thank you! Your message has been sent.', 'bmfitness' ); ?>
+					<?php esc_html_e( 'Tvoja poruka je poslata. Hvala ti.', 'bmfitness' ); ?>
 				</div>
 			<?php elseif ( 'invalid' === $contact_status ) : ?>
 				<div class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800" role="alert">
-					<?php esc_html_e( 'Please fill in all fields with a valid email address.', 'bmfitness' ); ?>
+					<?php esc_html_e( 'Molim te upiši ispravnu email adresu.', 'bmfitness' ); ?>
 				</div>
 			<?php elseif ( 'error' === $contact_status ) : ?>
 				<div class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800" role="alert">
-					<?php esc_html_e( 'Sorry, something went wrong. Please try again later.', 'bmfitness' ); ?>
+					<?php esc_html_e( 'Ops, nešto se krivo desilo, pokušaj kasnije ponovno.', 'bmfitness' ); ?>
 				</div>
 			<?php endif; ?>
 
