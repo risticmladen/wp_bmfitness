@@ -15,6 +15,7 @@ get_header();
 
 /* ═══════════════════════════════════════════════════════════════ FITNESS */
 ?>
+<h1 class="sr-only"><?php esc_html_e( 'BM Fitness - Fitness centar i wellness u Belom Manastiru', 'bmfitness' ); ?></h1>
 
 <!-- Fitness Hero -->
 <?php bmfitness_render_hero( 'fitness' ); ?>

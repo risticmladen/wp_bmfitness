@@ -52,11 +52,16 @@ function bmfitness_local_business_schema() {
 	if ( ! is_front_page() ) {
 		return;
 	}
+	$site_url    = home_url( '/' );
+	$logo_id     = get_theme_mod( 'custom_logo' );
+	$logo_source = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
 	$schema = array(
 		'@context'        => 'https://schema.org',
 		'@type'           => 'HealthAndBeautyBusiness',
-		'name'            => get_bloginfo( 'BM Fitness' ),
-		'url'             => home_url('https://bmfitness.hr/'),
+		'@id'             => trailingslashit( $site_url ) . '#organization',
+		'name'            => get_bloginfo( 'name' ),
+		'url'             => $site_url,
+		'description'     => get_bloginfo( 'description' ),
 		'telephone'       => '+385 97 6465977',
 		'email'           => 'info@bmfitness.hr',
 		'address'         => array(
@@ -69,7 +74,7 @@ function bmfitness_local_business_schema() {
 		'openingHoursSpecification' => array(
 			array(
 				'@type'     => 'OpeningHoursSpecification',
-				'dayOfWeek' => array( 'Monday','Tuesday','Wednesday','Thursday','Friday' ),
+				'dayOfWeek' => array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ),
 				'opens'     => '00:00',
 				'closes'    => '24:00',
 			)
@@ -80,6 +85,9 @@ function bmfitness_local_business_schema() {
 			'https://www.facebook.com/share/1YCqdeJsqU',
 		),
 	);
+	if ( $logo_source ) {
+		$schema['image'] = esc_url_raw( $logo_source );
+	}
 	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT ) . '</script>' . "\n";
 }
 add_action( 'wp_head', 'bmfitness_local_business_schema' );
