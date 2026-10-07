@@ -63,7 +63,7 @@ function bmfitness_local_business_schema() {
 		'url'             => $site_url,
 		'description'     => get_bloginfo( 'description' ),
 		'telephone'       => '+385 97 6465977',
-		'email'           => 'info@bmfitness.hr',
+		'email'           => 'belimanastir.fitness@gmail.com',
 		'address'         => array(
 			'@type'           => 'PostalAddress',
 			'streetAddress'   => 'Ulica Republike br. 2',
@@ -825,7 +825,7 @@ function bmfitness_pricing_block_render( $attributes ) {
  * @return string
  */
 function bmfitness_contact_recipient() {
-	return apply_filters( 'bmfitness_contact_recipient', 'info@bmfitness.hr' );
+	return apply_filters( 'bmfitness_contact_recipient', 'belimanastir.fitness@gmail.com' );
 }
 
 /**

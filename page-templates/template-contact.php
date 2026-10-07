@@ -79,17 +79,17 @@ get_header();
 					</li>
                     <li class="mb-0"><span class="text-gray-600">Fitness:</span></li>
 					<li class="flex items-center gap-3 mb-0">
-						<a href="tel:+385976465977" class="hover:text-brand-600 transition-colors">+385 97 6465977</a>
+						<a href="tel:+385976465977" class="hover:text-brand-600 transition-colors">+385 97 646 5977</a>
 					</li>
                     <li class="flex items-center gap-3">
-                        <a href="mailto:info@bmfitness.hr" class="hover:text-brand-600 transition-colors">info@bmfitness.hr</a>
+                        <a href="mailto:belimanastir.fitness@gmail.com" class="hover:text-brand-600 transition-colors">belimanastir.fitness@gmail.com</a>
                     </li>
                     <li class="mb-0"><span class="text-gray-600">Wellness:</span></li>
                     <li class="flex items-center gap-3 mb-0">
                         <a href="tel:+385976039033" class="hover:text-brand-600 transition-colors">+385 97 603 9033</a>
                     </li>
 					<li class="flex items-center gap-3">
-						<a href="mailto:wellness@bmfitness.hr" class="hover:text-brand-600 transition-colors">wellness@bmfitness.hr</a>
+						<a href="mailto:belimanastir.fitness@gmail.com" class="hover:text-brand-600 transition-colors">belimanastir.fitness@gmail.com</a>
 					</li>
 					<li class="flex items-start gap-3">
 						<span>Radno vrijeme: 0-24h <br>

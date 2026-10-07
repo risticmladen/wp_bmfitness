@@ -37,7 +37,7 @@
                 	<li>Pult:</li>
                 	<li>Pon-Sub: 08:00-20:00h</li>
                     <li><a href="tel:+385976465977">+385 97 6465977</a></li>
-                    <li><a href="mailto:info@bmfitness.hr">info@bmfitness.hr</a></li>
+                    <li><a href="mailto:belimanastir.fitness@gmail.com">belimanastir.fitness@gmail.com</a></li>
                     <li>
                         <ul class="flex flex-row items-center gap-3 mt-2">
                             <li>
@@ -71,7 +71,7 @@
                     <li>Radno vrijeme:</li>
                 	<li>Pon-Sub: 08:00-20:00h</li>
                     <li><a href="tel:+385976039033">+385 97 603 9033</a> (rezervacije)</li>
-                    <li><a href="mailto:wellness@bmfitness.hr">wellness@bmfitness.hr</a></li>
+                    <li><a href="mailto:belimanastir.fitness@gmail.com>belimanastir.fitness@gmail.com</a></li>
                     <li>
                         <ul class="flex flex-row items-center gap-3 mt-2">
                             <li>
@@ -88,6 +88,7 @@
 
 		<div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
 			<p>&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'Sva prava pridržana.', 'bmfitness' ); ?></p>
+			<p>Rimi Marketing &#9135 Dizajn, izrada i održavanje.</p>
 		</div>
 	</div>
 </footer>
