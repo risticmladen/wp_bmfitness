@@ -22,6 +22,55 @@
 body { @apply overflow-x-hidden;}
 main { @apply text-sm md:text-base; }
 
+/* Partner logos retain native touch/trackpad scrolling without JavaScript. */
+.partners-track {
+	@apply flex m-0 py-10 px-0;
+	--partners-visible: 2;
+	--partners-gap: 2rem;
+	gap: var(--partners-gap);
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
+	list-style: none;
+}
+.partners-track::-webkit-scrollbar { display: none; }
+.partners-slide {
+	flex: 0 0 calc((100% - (var(--partners-visible) - 1) * var(--partners-gap)) / var(--partners-visible));
+	min-width: 0;
+	scroll-snap-align: start;
+}
+.partners-link {
+	@apply flex justify-center;
+	align-items: center;
+	height: 8rem;
+	padding: 1rem 2rem;
+}
+.partners-logo {
+	@apply block w-auto h-auto object-contain;
+	max-width: 100%;
+	max-height: 100%;
+	filter: grayscale(1);
+	transition: filter 0.25s;
+}
+
+.partners-logo:hover {
+	filter: grayscale(0);
+}
+
+.partners-link:focus-visible, .partners-track:focus-visible {
+	outline: 2px solid var(--color-brand-700);
+	outline-offset: 2px;
+}
+@media (min-width: 768px) {
+	.partners-track { --partners-visible: 3; }
+}
+@media (min-width: 1024px) {
+	.partners-track { --partners-visible: 4; }
+}
+@media (min-width: 1360px) {
+	.partners-track { --partners-visible: 5; }
+}
+
 /* --- WordPress block content --- */
 
 .prose :where(figure) { @apply my-4 md:my-8 lg:my-10; }

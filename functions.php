@@ -13,6 +13,8 @@ define( 'BMFITNESS_VERSION', '1.0.0' );
 define( 'BMFITNESS_DIR', get_template_directory() );
 define( 'BMFITNESS_URI', get_template_directory_uri() );
 
+require_once BMFITNESS_DIR . '/inc/partners.php';
+
 /**
  * Theme setup.
  */
@@ -112,6 +114,16 @@ function bmfitness_enqueue_assets() {
 		filemtime( BMFITNESS_DIR . '/assets/js/app.js' ),
 		true
 	);
+
+	if ( is_front_page() ) {
+		wp_enqueue_script(
+			'bmfitness-partners',
+			BMFITNESS_URI . '/assets/js/partners.js',
+			array(),
+			filemtime( BMFITNESS_DIR . '/assets/js/partners.js' ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'bmfitness_enqueue_assets' );
 

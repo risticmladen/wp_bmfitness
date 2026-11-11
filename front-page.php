@@ -144,5 +144,8 @@ $well_gal_btn_url   = get_theme_mod( 'gallery_wellness_btn_url', '' );
 	</div>
 </section>
 
+<!-- Partners ticker -->
+<?php get_template_part( 'template-parts/partners' ); ?>
+
 <?php
 get_footer();
